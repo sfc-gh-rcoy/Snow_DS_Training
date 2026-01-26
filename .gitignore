@@ -140,6 +140,7 @@ celerybeat.pid
 
 # Environments
 .env
+.snowflake
 .envrc
 .venv
 env/
