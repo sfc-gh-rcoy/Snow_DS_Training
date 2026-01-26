@@ -41,7 +41,6 @@ data = {
     ]
 }
 
-
 def send_request(data: dict):
     output = requests.post(URL, json=data, headers=headers)
     if output.status_code != 200:
