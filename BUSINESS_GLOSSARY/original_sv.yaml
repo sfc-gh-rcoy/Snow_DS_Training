@@ -1,0 +1,319 @@
+name: BANKING_V1
+tables:
+  - name: ACCOUNTS
+    description: The table contains records of customer financial accounts. Each record represents a single account and includes details about account classification, status, balance information, and activity tracking.
+    base_table:
+      database: DEMO
+      schema: PUBLIC
+      table: ACCOUNTS
+    dimensions:
+      - name: ACCOUNT_ID
+        description: Unique identifier for each account in the system.
+        expr: ACCOUNT_ID
+        data_type: VARCHAR(20)
+        sample_values:
+          - ACC002
+          - ACC003
+          - ACC001
+      - name: ACCOUNT_STATUS
+        description: The current status of the account.
+        expr: ACCOUNT_STATUS
+        data_type: VARCHAR(15)
+        sample_values:
+          - CLOSED
+          - ACTIVE
+      - name: ACCOUNT_TYPE
+        description: The type of financial account held by the customer.
+        expr: ACCOUNT_TYPE
+        data_type: VARCHAR(20)
+        sample_values:
+          - SAVINGS
+          - MONEY_MARKET
+          - CHECKING
+      - name: CUSTOMER_ID
+        description: Customer identification codes used to uniquely identify individual customers.
+        expr: CUSTOMER_ID
+        data_type: VARCHAR(20)
+        sample_values:
+          - CUST002
+          - CUST003
+          - CUST001
+    time_dimensions:
+      - name: CLOSED_DATE
+        description: The date when the account was closed.
+        expr: CLOSED_DATE
+        data_type: DATE
+        sample_values:
+          - '2024-06-15'
+      - name: LAST_ACTIVITY_DATE
+        description: The date when the last activity occurred on the account.
+        expr: LAST_ACTIVITY_DATE
+        data_type: DATE
+        sample_values:
+          - '2024-12-14'
+          - '2024-12-15'
+          - '2024-12-10'
+      - name: OPENED_DATE
+        description: The date when the account was opened.
+        expr: OPENED_DATE
+        data_type: DATE
+        sample_values:
+          - '2019-06-01'
+          - '2020-01-15'
+          - '2019-06-15'
+    facts:
+      - name: AVAILABLE_BALANCE
+        description: The available balance in the account.
+        expr: AVAILABLE_BALANCE
+        data_type: NUMBER(15,2)
+        access_modifier: public_access
+        sample_values:
+          - '3250.75'
+          - '15420.50'
+          - '45000.00'
+      - name: CURRENT_BALANCE
+        description: The current balance amount in the account.
+        expr: CURRENT_BALANCE
+        data_type: NUMBER(15,2)
+        access_modifier: public_access
+        sample_values:
+          - '3250.75'
+          - '15420.50'
+          - '45000.00'
+      - name: INTEREST_RATE
+        description: The interest rate applied to the account.
+        expr: INTEREST_RATE
+        data_type: NUMBER(5,4)
+        access_modifier: public_access
+        sample_values:
+          - '0.0010'
+          - '0.0425'
+          - '0.0005'
+      - name: OVERDRAFT_LIMIT
+        description: The maximum amount an account holder is allowed to overdraw from their account.
+        expr: OVERDRAFT_LIMIT
+        data_type: NUMBER(10,2)
+        access_modifier: public_access
+        sample_values:
+          - '0.00'
+          - '1000.00'
+          - '500.00'
+    primary_key:
+      columns:
+        - ACCOUNT_ID
+  - name: CUSTOMERS
+    description: The table contains records of individual customers with their personal and demographic information. Each record includes contact details, financial profile data, geographic location, and account status information.
+    base_table:
+      database: DEMO
+      schema: PUBLIC
+      table: CUSTOMERS
+    dimensions:
+      - name: CREDIT_SCORE
+        description: Credit scores representing the creditworthiness of customers.
+        expr: CREDIT_SCORE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '750'
+          - '790'
+          - '680'
+      - name: CUSTOMER_ID
+        description: Unique identifier assigned to each customer.
+        expr: CUSTOMER_ID
+        data_type: VARCHAR(20)
+        sample_values:
+          - CUST002
+          - CUST003
+          - CUST001
+      - name: CUSTOMER_SEGMENT
+        description: Customer classification level indicating their service tier or membership status.
+        expr: CUSTOMER_SEGMENT
+        data_type: VARCHAR(20)
+        sample_values:
+          - STANDARD
+          - BASIC
+          - PREMIUM
+      - name: EMAIL
+        description: Email addresses of customers.
+        expr: EMAIL
+        data_type: VARCHAR(100)
+        sample_values:
+          - sarah.j@email.com
+          - mwilliams@email.com
+          - john.smith@email.com
+      - name: FIRST_NAME
+        description: Customer first names.
+        expr: FIRST_NAME
+        data_type: VARCHAR(50)
+        sample_values:
+          - Emily
+          - John
+          - Michael
+      - name: IS_ACTIVE
+        description: Indicates whether the customer account is currently active.
+        expr: IS_ACTIVE
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: LAST_NAME
+        description: Customer last names or surnames.
+        expr: LAST_NAME
+        data_type: VARCHAR(50)
+        sample_values:
+          - Smith
+          - Johnson
+          - Williams
+      - name: PHONE_NUMBER
+        description: Phone numbers for customer contact information.
+        expr: PHONE_NUMBER
+        data_type: VARCHAR(20)
+        sample_values:
+          - 555-0101
+          - 555-0103
+          - 555-0102
+      - name: STATE_CODE
+        description: Two-letter state abbreviations for United States states.
+        expr: STATE_CODE
+        data_type: VARCHAR(2)
+        sample_values:
+          - TX
+          - CA
+          - NY
+    time_dimensions:
+      - name: CUSTOMER_SINCE
+        description: The date when the customer first became a customer.
+        expr: CUSTOMER_SINCE
+        data_type: DATE
+        sample_values:
+          - '2019-06-01'
+          - '2018-03-20'
+          - '2020-01-15'
+      - name: DATE_OF_BIRTH
+        description: Date of birth for customers.
+        expr: DATE_OF_BIRTH
+        data_type: DATE
+        sample_values:
+          - '1990-07-22'
+          - '1978-11-08'
+          - '1985-03-15'
+    facts:
+      - name: ANNUAL_INCOME
+        description: Annual income of customers measured in dollars.
+        expr: ANNUAL_INCOME
+        data_type: NUMBER(12,2)
+        access_modifier: public_access
+        sample_values:
+          - '125000.00'
+          - '52000.00'
+          - '95000.00'
+    primary_key:
+      columns:
+        - CUSTOMER_ID
+  - name: TRANSACTIONS
+    description: The table contains records of financial transactions processed through various accounts. Each record represents a single transaction and includes details about the merchant, transaction categorization, amounts, and processing information such as dates and channels used.
+    base_table:
+      database: DEMO
+      schema: PUBLIC
+      table: TRANSACTIONS
+    dimensions:
+      - name: ACCOUNT_ID
+        description: Account identifier used to uniquely identify customer accounts.
+        expr: ACCOUNT_ID
+        data_type: VARCHAR(20)
+        sample_values:
+          - ACC002
+          - ACC003
+          - ACC001
+      - name: CHANNEL
+        description: The channel or method through which the transaction was processed.
+        expr: CHANNEL
+        data_type: VARCHAR(20)
+        sample_values:
+          - CARD
+          - ACH
+          - INTERNAL
+      - name: IS_RECURRING
+        description: Indicates whether the transaction is a recurring transaction.
+        expr: IS_RECURRING
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: MERCHANT_CATEGORY_CODE
+        description: Merchant Category Code identifying the type of business or service provider for the transaction.
+        expr: MERCHANT_CATEGORY_CODE
+        data_type: VARCHAR(4)
+        sample_values:
+          - '5411'
+          - '5812'
+          - '0000'
+      - name: MERCHANT_NAME
+        description: The name of the merchant or entity involved in the transaction.
+        expr: MERCHANT_NAME
+        data_type: VARCHAR(100)
+        sample_values:
+          - ACME Corp Payroll
+          - Olive Garden
+          - Whole Foods Market
+      - name: TRANSACTION_CATEGORY
+        description: The category or type of financial transaction.
+        expr: TRANSACTION_CATEGORY
+        data_type: VARCHAR(30)
+        sample_values:
+          - GROCERIES
+          - PAYROLL
+          - DINING
+      - name: TRANSACTION_ID
+        description: Unique identifier for each transaction.
+        expr: TRANSACTION_ID
+        data_type: VARCHAR(30)
+        sample_values:
+          - TXN0003
+          - TXN0001
+          - TXN0002
+      - name: TRANSACTION_TYPE
+        description: The type of financial transaction indicating whether funds are being debited or credited.
+        expr: TRANSACTION_TYPE
+        data_type: VARCHAR(20)
+        sample_values:
+          - DEBIT
+          - CREDIT
+    time_dimensions:
+      - name: POSTED_DATE
+        description: The date when the transaction was posted to the account.
+        expr: POSTED_DATE
+        data_type: DATE
+        sample_values:
+          - '2024-12-13'
+          - '2024-12-14'
+          - '2024-12-15'
+      - name: TRANSACTION_DATE
+        description: The date and time when the transaction occurred.
+        expr: TRANSACTION_DATE
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2024-12-14T14:22:00.000+0000
+          - 2024-12-13T08:00:00.000+0000
+          - 2024-12-15T09:30:00.000+0000
+    facts:
+      - name: AMOUNT
+        description: Transaction amounts representing monetary values with both positive and negative values indicating credits and debits.
+        expr: AMOUNT
+        data_type: NUMBER(12,2)
+        access_modifier: public_access
+        sample_values:
+          - '3500.00'
+          - '-45.00'
+          - '-125.50'
+      - name: RUNNING_BALANCE
+        description: The cumulative account balance after each transaction.
+        expr: RUNNING_BALANCE
+        data_type: NUMBER(15,2)
+        access_modifier: public_access
+        sample_values:
+          - '15591.00'
+          - '3250.75'
+          - '15420.50'
+    primary_key:
+      columns:
+        - TRANSACTION_ID
